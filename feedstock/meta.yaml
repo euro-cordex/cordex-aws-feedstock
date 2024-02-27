@@ -1,0 +1,3 @@
+recipes:
+  - id: "euro-cordex"
+    object: "recipe:recipe"
