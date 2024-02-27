@@ -22,3 +22,7 @@ ds = xr.open_zarr(
     store=fsspec.get_mapper(url), consolidated=True
 )
 ```
+
+## references
+
+This feedstock is based on the [CMIP6-leap-feedstock](https://github.com/leap-stc/cmip6-leap-feedstock).
