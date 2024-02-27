@@ -1,0 +1,2 @@
+dynamic-chunks==0.0.2
+pangeo-forge-cordex==0.3.4
