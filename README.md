@@ -1,6 +1,8 @@
 # cordex-aws-feedstock
 
-## Deploy
+This repository contains the pangeo-forge feedstock to extract CORDEX data from ESGF and upload it to the EURO-CORDEX S3 bucket on AWS. The workflow utilizes the [pangeo-forge-cordex](https://github.com/euro-cordex/pangeo-forge-cordex) package for accessing the [ESGF API](https://esgf.github.io/esg-search/ESGF_Search_RESTful_API.html) and prepares the input for extracting and converting datasets using [pangeo-forge-recipes](https://github.com/pangeo-forge/pangeo-forge-recipes).
+
+## deploy
 
 Run locally with
 
