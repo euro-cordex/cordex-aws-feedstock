@@ -1,8 +1,10 @@
 import apache_beam as beam
 import pandas as pd
 import zarr
+import xarray as xr
 
 from dataclasses import dataclass
+from typing import List, Dict
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.transforms import (
@@ -95,6 +97,58 @@ def test_ds(store: zarr.storage.FSStore) -> zarr.storage.FSStore:
     return store
 
 
+## Dynamic Chunking Wrapper
+def dynamic_chunking_func(ds: xr.Dataset) -> Dict[str, int]:
+    import warnings
+    # trying to import inside the function
+    from dynamic_chunks.algorithms import even_divisor_algo, iterative_ratio_increase_algo, NoMatchingChunks
+    
+    target_chunk_size='150MB'
+    target_chunks_aspect_ratio = {
+        'time':10,
+        'x':1, 'i':1, 'ni':1, 'xh':1, 'nlon':1, 'lon':1, 'rlon':1, # TODO: Maybe import all the known spatial dimensions from xmip?
+        'y':1, 'j':1, 'nj':1, 'yh':1, 'nlat':1, 'lat':1, 'rlat':1
+    }
+    size_tolerance=0.5
+
+    try:
+        target_chunks = even_divisor_algo(
+            ds,
+            target_chunk_size,
+            target_chunks_aspect_ratio,
+            size_tolerance,
+            allow_extra_dims=True,
+        )
+
+    except NoMatchingChunks:
+        warnings.warn(
+            "Primary algorithm using even divisors along each dimension failed "
+            "with. Trying secondary algorithm."
+        )
+        try:
+            target_chunks = iterative_ratio_increase_algo(
+                ds,
+                target_chunk_size,
+                target_chunks_aspect_ratio,
+                size_tolerance,
+                allow_extra_dims=True,
+            )
+        except NoMatchingChunks:
+            raise ValueError(
+                (
+                    "Could not find any chunk combinations satisfying "
+                    "the size constraint with either algorithm."
+                )
+            )
+        # If something fails 
+        except Exception as e:
+            raise e
+    except Exception as e:
+        raise e
+    
+    return target_chunks 
+
+
 iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
 
 # sslcontext = logon()
@@ -121,6 +175,7 @@ recipe = (
     | StoreToZarr(
         store_name=f"{iid}.zarr",
         combine_dims=pattern.combine_dim_keys,
+        dynamic_chunking_fn=dynamic_chunking_func,
     )
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
