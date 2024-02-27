@@ -116,6 +116,7 @@ recipe = (
     | OpenURLWithFSSpec()
     #    | OpenWithXarray(file_type=pattern.file_type)
     | OpenWithXarray(xarray_open_kwargs={"use_cftime": True, "decode_coords": "all"})
+    # set decode_coords to ensure grid_mappings are in the coordinates...
     | Preprocessor()
     | StoreToZarr(
         store_name=f"{iid}.zarr",
