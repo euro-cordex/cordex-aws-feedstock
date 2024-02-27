@@ -49,9 +49,9 @@ def test_ds(store: zarr.storage.FSStore) -> zarr.storage.FSStore:
 
 iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
 
-sslcontext = logon()
+#sslcontext = logon()
 
-recipe_inputs = recipe_inputs_from_iids(iid, sslcontext)
+recipe_inputs = recipe_inputs_from_iids(iid)
 
 urls = recipe_inputs[iid]["urls"]
 
