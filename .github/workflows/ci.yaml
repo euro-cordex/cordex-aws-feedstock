@@ -1,23 +1,38 @@
 name: ci 
 
 on:
+
   push:
     branches: ["main"]
   pull_request:
     branches: [ "*" ]
 
 jobs:
-  deploy-recipe:
-    name: deploy-recipe
+
+  deploy-recipe-with-action:
+    name: deploy-recipe-with-action
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: "Deploy test recipe"
+      - name: deploy test recipe
         uses: "pangeo-forge/deploy-recipe-action@v0.2"
         with:
           #select_recipe_by_label: ""
-          pangeo_forge_runner_config: "./config/local.json"
+          pangeo_forge_runner_config: "./config/local.json"i
+
+  deploy-recipe-manually:
+    name: deploy-recipe-manually
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r feedstock/requirements.txt
+      - name: deploy test recipe
+        run: pangeo-forge-runner bake --repo=. -f=config/local.json --Bake.recipe_id=euro-cordex --Bake.job_name=test --prune 
