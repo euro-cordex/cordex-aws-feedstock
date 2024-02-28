@@ -19,9 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          apt-get install python3-venv
       - name: "Deploy recipes PR"
         uses: "pangeo-forge/deploy-recipe-action@v0.2"
         with:
