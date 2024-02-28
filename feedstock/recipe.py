@@ -2,6 +2,7 @@ import apache_beam as beam
 import pandas as pd
 import zarr
 import xarray as xr
+import sys
 
 from dataclasses import dataclass
 from typing import List, Dict
@@ -17,29 +18,9 @@ from pangeo_forge_recipes.transforms import (
     T,
 )
 
-from pangeo_forge_cordex import logon, recipe_inputs_from_iids
-from pangeo_forge_cordex.catalog import catalog_entry, path
+from pangeo_forge_cordex import recipe_inputs_from_iids
 from pangeo_forge_cordex.parsing import project_from_iid
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
-
-bucket = "euro-cordex"
-
-
-def get_url(bucket, prefix="", fs="s3"):
-    return f"{fs}://{op.join(bucket, prefix)}"
-
-
-def get_zarr_url(iid, bucket, prefix="", fs="s3"):
-    return f"{op.join(get_url(bucket, prefix, fs), path(iid))}"
-
-
-def get_catalog_url(bucket, project, prefix="catalog"):
-    if project in ["CORDEX", "CORDEX-Reklies", "CORDEX-FPSCONV"]:
-        # these go all in the same catalog (they have the same facets)
-        catalog = "CORDEX"
-    else:
-        catalog = project
-    return f"{op.join(get_url(bucket, prefix), catalog)}.csv"
 
 
 @dataclass
@@ -117,7 +98,7 @@ def dynamic_chunking_func(ds: xr.Dataset) -> Dict[str, int]:
         "xh": 1,
         "nlon": 1,
         "lon": 1,
-        "rlon": 1,  # TODO: Maybe import all the known spatial dimensions from xmip?
+        "rlon": 1, 
         "y": 1,
         "j": 1,
         "nj": 1,
@@ -166,9 +147,14 @@ def dynamic_chunking_func(ds: xr.Dataset) -> Dict[str, int]:
     return target_chunks
 
 
-iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
+iid_file = 'feedstock/iid.txt'
 
-# sslcontext = logon()
+with open(iid_file) as f:
+    iid = f.read().rstrip()
+
+#iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
+
+print(f"iid: {iid}")
 
 recipe_inputs = recipe_inputs_from_iids(iid)
 
@@ -176,12 +162,9 @@ urls = recipe_inputs[iid]["urls"]
 
 print(f"urls: {urls}")
 
-
-# recipe_kwargs = recipe_inputs[iid]["recipe_kwargs"]
-# pattern_kwargs = recipe_inputs[iid]["pattern_kwargs"]
-#
 pattern = pattern_from_file_sequence(urls, concat_dim="time")
-#
+
+
 recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec()

@@ -5,11 +5,11 @@
   "TargetStorage": {
     "fsspec_class": "s3fs.S3FileSystem",
     "fsspec_args": {},
-    "root_path": "./target"
+    "root_path": "s3://euro-cordex/test/{{job_name}}/output"
   },
   "InputCacheStorage": {
     "fsspec_class": "s3fs.S3FileSystem",
     "fsspec_args": {},
-    "root_path": "./cache"
+    "root_path": "s3://euro-cordex/test/input/cache"
   }
 }
