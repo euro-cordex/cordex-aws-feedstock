@@ -1,0 +1,9 @@
+aiohttp
+requests
+fsspec
+s3fs
+zarr
+boto3
+pangeo-forge-recipes
+pangeo-forge-cordex
+pangeo-forge-runner
