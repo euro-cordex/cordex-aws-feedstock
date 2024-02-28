@@ -1,3 +1,10 @@
 dynamic-chunks==0.0.2
 pangeo-forge-cordex==0.3.4
 pangeo-forge-recipes==0.10.5
+aiohttp
+requests
+fsspec
+s3fs
+zarr
+boto3
+
