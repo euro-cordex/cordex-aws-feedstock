@@ -7,13 +7,15 @@ on:
     branches: [ "*" ]
 
 jobs:
-  deploy-recipes:
-    name: deploy-recipes
-    runs-on: ubuntu-20.04
+  deploy-recipe:
+    name: deploy-recipe
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: "Deploy test recipe"
         uses: "pangeo-forge/deploy-recipe-action@v0.2"
         with:
