@@ -33,6 +33,8 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: pip install -r feedstock/requirements.txt
+        run: |
+          pip install -r feedstock/requirements.txt
+          pip install pangeo-forge-runner
       - name: deploy test recipe
         run: pangeo-forge-runner bake --repo=. -f=config/local.json --Bake.recipe_id=euro-cordex --Bake.job_name=test --prune 
