@@ -1,1 +1,1 @@
-cordex-fpsconv.output.ALP-3.UCAN.ECMWF-ERAINT.evaluation.r1i1p1.WRF381BI.fpsconv-x1n2-v1.1hr.vas.v20230531
+cordex-fpsconv.output.ALP-3.CLMcom-CMCC.ICHEC-EC-EARTH.rcp85.r12i1p1.CCLM5-0-9.fpsconv-x2yn2-v1.1hr.tas.v20230919
