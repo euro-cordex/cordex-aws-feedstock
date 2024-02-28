@@ -1,6 +1,7 @@
 {
   "Bake": {
-    "bakery_class": "pangeo_forge_runner.bakery.local.LocalDirectBakery"
+    "bakery_class": "pangeo_forge_runner.bakery.local.LocalDirectBakery",
+    "prune": true
   },
   "TargetStorage": {
     "fsspec_class": "fsspec.implementations.local.LocalFileSystem",
