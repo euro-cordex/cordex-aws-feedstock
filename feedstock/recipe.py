@@ -146,11 +146,9 @@ def dynamic_chunking_func(ds: xr.Dataset) -> Dict[str, int]:
 
     return target_chunks
 
-
-iid_file = 'feedstock/iid.txt'
-
-with open(iid_file) as f:
-    iid = f.read().rstrip()
+#iid_file = 'feedstock/iid.txt'
+#with open(iid_file) as f:
+#    iid = f.read().rstrip()
 
 iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
 
