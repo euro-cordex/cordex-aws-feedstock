@@ -1,0 +1,13 @@
+{
+  "Bake": {
+    "bakery_class": "pangeo_forge_runner.bakery.flink.FlinkOperatorBakery"
+  },
+  "TargetStorage": {
+    "fsspec_class": "s3fs.S3FileSystem",
+    "root_path": "s3://euro-cordex/flink-test/{job_name}/output"
+  },
+  "InputCacheStorage": {
+    "fsspec_class": "s3fs.S3FileSystem",
+    "root_path": "s3://euro-cordex/flink-test/cache"
+  }
+}
