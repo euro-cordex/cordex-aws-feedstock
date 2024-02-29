@@ -23,6 +23,12 @@ ds = xr.open_zarr(
 )
 ```
 
+## aws flink
+
+```
+pangeo-forge-runner bake --repo=. --ref beam-refactor --config=./config/aws_config.py --prune --FlinkOperatorBakery.parallelism=10 --Bake.job_name=awstest
+```
+
 ## references
 
 This feedstock is based on the [CMIP6-leap-feedstock](https://github.com/leap-stc/cmip6-leap-feedstock).
