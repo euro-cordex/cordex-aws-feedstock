@@ -151,7 +151,8 @@ def dynamic_chunking_func(ds: xr.Dataset) -> Dict[str, int]:
 #    iid = f.read().rstrip()
 
 #iid = "cordex.output.EUR-11.GERICS.NOAA-GFDL-GFDL-ESM2G.rcp26.r1i1p1.REMO2015.v1.mon.pr.v20180710"
-iid = "cordex.output.EUR-11.GERICS.ECMWF-ERAINT.evaluation.r1i1p1.REMO2015.v1.day.tas.v20180813"
+#iid = "cordex.output.EUR-11.GERICS.ECMWF-ERAINT.evaluation.r1i1p1.REMO2015.v1.day.tas.v20180813"
+iid = "cordex.output.EUR-11.CLMcom-ETH.MPI-M-MPI-ESM-LR.historical.r1i1p1.COSMO-crCLIM-v1-1.v1.6hr.ts.v20191219"
 print(f"iid: {iid}")
 
 recipe_inputs = recipe_inputs_from_iids(iid)
